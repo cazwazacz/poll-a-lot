@@ -74,16 +74,18 @@ img {
 .bg-1 {
   background-color: #283a73; /* Green */
   color: #ffffff;
+  font-family: 'Roboto', sans-serif;
 }
 
 .bg-2 {
     background-color: rgb(247, 247, 247);
     color: #555555;
+    padding: 0 100px 0 100px;
 }
 
 .container-fluid {
-    padding-top: 70px;
-    padding-bottom: 70px;
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
 
 .sign-up {
@@ -102,9 +104,44 @@ img {
 }
 
 .navbar-nav li a:hover {
-    color: #1abc9c !important;
+    color: #c60000 !important;
+}
+
+.bg-pollform {
+    background-color: rgb(247, 247, 247);
+    color: #555555;
+    padding: 20px 50px 40px 50px;
+}
+
+#heading {
+  font-size: 50px;
+  font-weight:600;
 }
 
 #equalsPic {
-  height: 200px;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+.bottom-bg {
+  background-color: #283a73; /* Green */
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+  height: 300px;
+}
+
+#listofpolls li {
+    list-style-type: none;
+}
+
+#listofpolls {
+  margin-right: 45px;
+}
+
+.radio {
+  padding-bottom: 10px;
+}
+
+#title {
+  margin-bottom: -30px;
 }

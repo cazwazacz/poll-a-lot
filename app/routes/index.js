@@ -8,14 +8,9 @@ module.exports = function (app, db){
 
   app.route('/')
      .get(function(req, res){
-        res.sendFile(process.cwd() + '/public/home.html');
+        res.sendFile(process.cwd() + '/public/homeloggedin.html');
         //res.sendFile(process.cwd() + '/public/yourpolls.html');
      });
-  /*
-  app.route('/api/clicks')
-      .get(clickHandler.getClicks)
-      .post(clickHandler.addClick)
-      .delete(clickHandler.resetClicks);*/
 
   app.route('/api/data')
       .post(pollHandler.createPoll)
@@ -28,20 +23,32 @@ module.exports = function (app, db){
 
   app.route('/yourpolls')
     .get(function (req, res) {
-      res.sendFile(process.cwd() + '/public/yourpolls.html');
+      res.sendFile(process.cwd() + '/public/yourpolls2.html');
+    });
+
+  app.route('/signup')
+    .get(function (req, res) {
+      res.sendFile(process.cwd() + '/public/signup.html');
+    });
+
+  app.route('/login')
+    .get(function (req, res) {
+      res.sendFile(process.cwd() + '/public/login.html');
     });
 
   app.route('/api/poll/:pollname')
     .get(pollHandler.getSinglePoll)
     .post(pollHandler.vote);
 
-  app.route('/:pollname')
+  app.route('/poll/:pollname')
     .get(function (req, res) {
-      res.sendFile(process.cwd() + '/public/poll.html');
+      res.sendFile(process.cwd() + '/public/poll2.html');
     });
 
   app.route('/vote/:pollname')
     .get(function (req, res) {
-      res.sendFile(process.cwd() + '/public/vote.html');
+      res.sendFile(process.cwd() + '/public/vote2.html');
     });
+
+
 };

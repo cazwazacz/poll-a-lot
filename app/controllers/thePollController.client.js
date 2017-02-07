@@ -1,7 +1,10 @@
 var pathname = window.location.pathname;
-
+pathname = pathname.split('/');
+pathname = pathname[pathname.length - 1];
+console.log(pathname);
+console.log(pathname);
 $(document).ready(function () {
-  var url = '/api/poll' + pathname;
+  var url = '/api/poll/' + pathname;
 
   $.getJSON(url, function(data){
     var labels = data.labels;

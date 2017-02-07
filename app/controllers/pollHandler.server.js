@@ -12,7 +12,7 @@ function pollHandler (db) {
       values.push(0);
     });
     polls.insert({name: name, labels: labels, values: values});
-    //res.redirect('/poll');
+    res.redirect('/yourpolls');
   };
 
   this.getPolls = function (req, res) {
@@ -26,21 +26,30 @@ function pollHandler (db) {
 
   this.getSinglePoll = function (req, res) {
     var name = req.params.pollname;
-    polls.findOne({name: name}, function (err, result){
+    var regexp = new RegExp(name, "gi");
+
+    polls.findOne({name: regexp}, function (err, result){
       if (err) {throw err;}
       else if (result) {
         res.json(result);
       } else {
-        console.log ('Not found');
+        console.log ('u r here.... Not found');
       }
     });
+  }
+
+  this.pollGraph = function (req, res, next) {
+    console.log(req.params);
   }
 
   this.vote = function (req, res) {
 
     var name = req.body.name;
+    var regexp = new RegExp(name, "gi");
+
     var id = req.body.id;
     var vote = req.body.vote;
+
 
     polls.findOne({name: name}, function (err, result) {
       if (err) {throw err;}
@@ -62,7 +71,7 @@ function pollHandler (db) {
       }
     })
 
-    res.redirect('/' + name);
+    res.redirect('/poll/' + name);
   }
 
 

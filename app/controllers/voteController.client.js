@@ -4,6 +4,7 @@
 
   var pathname = window.location.pathname;
   pathname = pathname.split('/');
+
   pathname = '/' + pathname[pathname.length - 1];
 
   var url = '/api/poll' + pathname;
@@ -23,12 +24,15 @@
 
       for (let i = 0;  i < data.labels.length; i++) {
         var label = data.labels[i];
-        $('#form').append('<input type="radio" name="vote" value="' + label + '">' + label + '<br>');
+        $('#form').append('<div class="radio">\
+                          <label><input type="radio" name="vote" value="' + label + '">' + label + '</label>\
+                        </div>');
+        //$('#form').append('<input type="radio" name="vote" value="' + label + '">' + label + '<br>');
       }
 
       //$('#form').append('<input type="radio" name="gender" value="male"> Male<br>');
       //$('#form').append('<input type="radio" name="gender" value="Female"> Female<br>');
-      $('#form').append('<input type="submit" value="Submit">');
+      $('#form').append('<input class="sign-up btn btn-default" type="submit" value="Submit">');
 
     });
 

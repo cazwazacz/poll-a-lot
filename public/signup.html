@@ -32,16 +32,32 @@
 
 <div class="container-fluid bg-1 text-center">
 
-  <h3 id="heading">POLL-A-LOT</h3>
-  <img src="/public/img/equals.png" id="equalsPic" class="img-circle img-responsive" style="display:inline" alt="Equals">
-  <h3>Vote on what really matters.</h3>
+  <h3 id="heading">Sign up</h3>
+  <h3>Create polls in seconds.</h3>
 
 </div>
 
-<div class="container-fluid bg-2 text-center">
-  <h3>A simple polling app that meets all your needs.</h3>
-  <p>Sign up or log in to quickly create a poll that you can easily share!</p><br>
-    <a href="/signup" class="sign-up btn btn-default btn-lg">Sign Up</a>
+<div class="container-fluid bg-2">
+  <form action="index.html" method="post">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" class="form-control" id="username">
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email">
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" class="form-control" id="password">
+    </div>
+    <button type="submit" name="button" class="sign-up btn btn-default">Submit</button>
+
+  </form>
+</div>
+<div class="container-fluid bg-1 text-center">
+<h1> </h1> <br>
+
 </div>
 
 </body>
