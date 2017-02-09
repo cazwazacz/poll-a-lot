@@ -4,22 +4,49 @@
 
   angular
      .module('yourpolls', ['ngResource'])
-     .controller('listPolls', ['$scope', '$resource', function ($scope, $resource) {
+     .controller('listPolls', ['$scope', '$resource', '$sce', function ($scope, $resource, $sce) {
 
 
-        var Polls = $resource('/api/data');
+        var User = $resource('/api/currentuser');
 
         $scope.names = [];
 
         $scope.getPolls = function () {
-          Polls.query(function (results) {
-            for (let i=0; i<results.length; i++) {
-              $scope.names.push(results[i].name);
-            }
+          User.get(function (user) {
+
+            $scope.user = user.username;
+
+            var Polls = $resource('/api/' + $scope.user + '/polls/');
+
+            Polls.query(function (results) {
+              for (let i=0; i<results.length; i++) {
+                $scope.names.push(results[i].name);
+              }
+            });
+
           });
         };
 
         $scope.getPolls();
+
+        //var Polls = $resource('/api/data');
+
+
+
+        /*$scope.getPolls = function () {
+          User.get(function (user) {
+            console.log(user);
+            Polls.query(function (results) {
+              for (let i=0; i<results.length; i++) {
+                $scope.names.push(results[i].name);
+              }
+            });
+          })
+        };
+
+        $scope.getPolls();*/
+
+
      }]);
 
 })();

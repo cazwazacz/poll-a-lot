@@ -16,11 +16,8 @@ module.exports = function (app, passport){
 
   app.route('/')
     .get(function (req, res) {
-      if (req.user) {
-        console.log(req.user.username);
-      }
        if (req.isAuthenticated()){
-        res.sendFile(process.cwd() + '/public/homeloggedin.html');
+        res.render('index', {user: req.user.username});
       } else {
         res.sendFile(process.cwd() + '/public/index.html');
       }
@@ -39,7 +36,11 @@ module.exports = function (app, passport){
 
   app.route('/yourpolls')
     .get(function (req, res) {
-      res.sendFile(process.cwd() + '/public/yourpolls2.html');
+      if (req.isAuthenticated()) {
+        res.sendFile(process.cwd() + '/public/yourpolls2.html');
+      } else {
+        res.redirect('/login');
+      }
     });
 
   app.route('/signup')
@@ -64,6 +65,12 @@ module.exports = function (app, passport){
   app.route('/api/poll/:pollname')
     .get(pollHandler.getSinglePoll)
     .post(pollHandler.vote);
+
+  app.route('/api/currentuser/')
+    .get(pollHandler.currentUser);
+
+  app.route('/api/:user/polls')
+    .get(pollHandler.currentUserPolls);  
 
   app.route('/poll/:pollname')
     .get(function (req, res) {

@@ -5,7 +5,21 @@ var Users = require('../models/users.js');
 
 function pollHandler () {
 
+  this.currentUser = function (req, res) {
+    var username = req.user.username;
+    res.json({username: username});
+  }
+
+  this.currentUserPolls = function (req, res) {
+    Polls.find({username: req.params.user})
+      .exec(function (err, result) {
+        if (err) {throw err;}
+        res.json(result);
+      })
+  }
+
   this.createPoll = function (req, res) {
+    var username = req.user.username;
     var name = req.body.name;
     var labels = req.body.labels;
     var values = [];
@@ -14,6 +28,7 @@ function pollHandler () {
     });
 
     var newPoll = new Polls({
+      username: username,
       name: name,
       labels: labels,
       values: values

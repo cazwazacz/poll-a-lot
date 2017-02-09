@@ -1,4 +1,4 @@
-/****** Main Styling ******/
+rgb(207, 0, 0)/****** Main Styling ******/
 
 body {
     font-family: 'Roboto', sans-serif;
@@ -144,4 +144,8 @@ img {
 
 #title {
   margin-bottom: -30px;
+}
+
+#delete-buttons {
+  background-color: rgb(207, 0, 0);
 }

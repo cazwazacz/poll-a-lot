@@ -3,10 +3,18 @@ pathname = pathname.split('/');
 pathname = pathname[pathname.length - 1];
 $(document).ready(function () {
   var url = '/api/poll/' + pathname;
+  var origin = window.location.origin;
+  var pollname = window.location.pathname.split("/");
+  pollname = pollname[pollname.length - 1];
+  var newUrl = origin + '/vote/' + pollname;
+
+
+  $("#sharelink").attr("value", newUrl);
 
   $.getJSON(url, function(data){
     var labels = data.labels;
     var values = data.values;
+    var name = data.name;
 
     const CHART = document.getElementById("lineChart");
 
@@ -16,7 +24,7 @@ $(document).ready(function () {
         labels: labels,
         datasets: [
           {
-            label: "Poll",
+            label: name,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -43,11 +51,11 @@ $(document).ready(function () {
           yAxes: [{
             display: true,
             ticks: {
-              suggestedMin: 0
+              beginAtZero: true
             }
           }]
         }
-      }
+      },
     });
   });
 });
