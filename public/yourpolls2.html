@@ -42,7 +42,7 @@
     <div class="col-sm-4 col-sm-offset-4">
       <h3>Polls made by other people.</h3> <br>
       <ul id="listofpolls">
-         <li ng-repeat="poll in names track by $index"><a href="/vote/{{ poll }}"><span ng-cloak>{{ poll }}</span></a></li>
+         <li ng-repeat="poll in names track by $index"><a href="/poll/{{ poll }}"><span ng-cloak>{{ poll }}</span></a></li>
       </ul>
     </div>
   </div>

@@ -1,8 +1,22 @@
 'use strict';
 
-function pollHandler (db) {
+var Polls = require('../models/polls.js');
+var Users = require('../models/users.js');
 
-  var polls = db.collection('polls');
+function pollHandler () {
+
+  this.testFunc = function (req, res) {
+    var newUser = new Users({
+      username: 'test',
+      password: 'test'
+    });
+
+    newUser.save(function (err, doc) {
+      if (err) {throw err;}
+
+      console.log(doc);
+    });
+  };
 
   this.createPoll = function (req, res) {
     var name = req.body.name;
@@ -11,29 +25,47 @@ function pollHandler (db) {
     labels.forEach(function(element){
       values.push(0);
     });
-    polls.insert({name: name, labels: labels, values: values});
+
+    var newPoll = new Polls({
+      name: name,
+      labels: labels,
+      values: values
+    });
+
+    newPoll.save(function (err, doc) {
+      if (err) {throw err;}
+
+      console.log(doc);
+    });
+
     res.redirect('/yourpolls');
   };
 
   this.getPolls = function (req, res) {
-    var cursor = polls.find({});
-    cursor.toArray(function(err, found){
-    if (err) {throw err;}
-    res.json(found);
-    });
 
+    Polls.find({})
+    .exec(function (err, result) {
+      if (err) {throw err;}
+
+      if (result) {
+        res.json(result);
+      }
+    });
   }
+
 
   this.getSinglePoll = function (req, res) {
     var name = req.params.pollname;
     var regexp = new RegExp(name, "gi");
 
-    polls.findOne({name: regexp}, function (err, result){
+    Polls.findOne({name: regexp})
+    .exec(function(err, result) {
       if (err) {throw err;}
+
       else if (result) {
         res.json(result);
       } else {
-        console.log ('u r here.... Not found');
+        console.log('single poll not found');
       }
     });
   }
@@ -51,19 +83,20 @@ function pollHandler (db) {
     var vote = req.body.vote;
 
 
-    polls.findOne({name: name}, function (err, result) {
+    Polls.findOne({name: regexp}, function (err, result) {
       if (err) {throw err;}
 
       if (result) {
+
         var voteIndex = result.labels.indexOf(vote);
         var newValues = result.values;
         newValues[voteIndex] = parseInt(newValues[voteIndex]) + 1;
 
-        polls.update({name: name},
-          {$set:
-            {values: newValues}
-          }
-        )
+        Polls.update({name: regexp}, {$set: {values: newValues}}, function(err, updated) {
+          if (err) {throw err;}
+
+        });
+
       }
 
       else {
@@ -74,56 +107,6 @@ function pollHandler (db) {
     res.redirect('/poll/' + name);
   }
 
-
-  var clicks = db.collection('clicks');
-  this.getClicks = function (req, res) {
-    var clickProjection = {_id: false};
-    clicks.findOne({}, clickProjection, function (err, result){
-      if (err){
-        throw err;
-      }
-      if (result){
-        res.json(result);
-      } else {
-        clicks.insert({'clicks': 0}, function (err){
-          if (err) {
-            throw err;
-          }
-          clicks.findOne({}, clickProjection, function (err, doc){
-            if (err) {
-              throw err;
-            }
-            res.json(doc);
-          });
-        });
-      }
-
-    });
-  };
-
-  this.addClick = function (req, res) {
-    clicks.findAndModify(
-      {},
-      {'_id': 1},
-      { $inc: {clicks: 1}},
-      function (err, result) {
-        if (err) {throw err;}
-
-        res.json(result);
-      }
-    );
-  };
-
-  this.resetClicks = function (req, res) {
-    clicks.update(
-      {},
-      {'clicks': 0}, function (err, result) {
-        if (err) {throw err;}
-
-        res.json(result);
-      }
-    );
-  };
 };
 
 module.exports = pollHandler;

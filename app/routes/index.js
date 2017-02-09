@@ -2,15 +2,35 @@
 
 var PollHandler = require(process.cwd() + '/app/controllers/pollHandler.server.js');
 
-module.exports = function (app, db){
+module.exports = function (app, passport){
 
-  var pollHandler = new PollHandler(db);
+  function isLoggedIn (req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    } else {
+      res.redirect('/login');
+    }
+  }
+
+  var pollHandler = new PollHandler();
 
   app.route('/')
-     .get(function(req, res){
+     .get(isLoggedIn, function(req, res){
         res.sendFile(process.cwd() + '/public/homeloggedin.html');
-        //res.sendFile(process.cwd() + '/public/yourpolls.html');
      });
+
+  /*app.post('/login',
+    passport.authenticate('local', { successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true })
+  );*/
+
+  app.route('/logout')
+    .get(function(req, res) {
+      req.logout();
+      res.redirect('/');
+    });
+
 
   app.route('/api/data')
       .post(pollHandler.createPoll)
@@ -34,7 +54,11 @@ module.exports = function (app, db){
   app.route('/login')
     .get(function (req, res) {
       res.sendFile(process.cwd() + '/public/login.html');
-    });
+    })
+    .post(passport.authenticate('local', { successRedirect: '/',
+        failureRedirect: '/login',
+        failureFlash: true }));
+
 
   app.route('/api/poll/:pollname')
     .get(pollHandler.getSinglePoll)
@@ -49,6 +73,5 @@ module.exports = function (app, db){
     .get(function (req, res) {
       res.sendFile(process.cwd() + '/public/vote2.html');
     });
-
 
 };
