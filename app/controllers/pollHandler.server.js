@@ -5,19 +5,6 @@ var Users = require('../models/users.js');
 
 function pollHandler () {
 
-  this.testFunc = function (req, res) {
-    var newUser = new Users({
-      username: 'test',
-      password: 'test'
-    });
-
-    newUser.save(function (err, doc) {
-      if (err) {throw err;}
-
-      console.log(doc);
-    });
-  };
-
   this.createPoll = function (req, res) {
     var name = req.body.name;
     var labels = req.body.labels;
@@ -75,7 +62,7 @@ function pollHandler () {
   }
 
   this.vote = function (req, res) {
-
+    console.log(req.body);
     var name = req.body.name;
     var regexp = new RegExp(name, "gi");
 

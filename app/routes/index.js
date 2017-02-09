@@ -15,15 +15,16 @@ module.exports = function (app, passport){
   var pollHandler = new PollHandler();
 
   app.route('/')
-     .get(isLoggedIn, function(req, res){
+    .get(function (req, res) {
+      if (req.user) {
+        console.log(req.user.username);
+      }
+       if (req.isAuthenticated()){
         res.sendFile(process.cwd() + '/public/homeloggedin.html');
-     });
-
-  /*app.post('/login',
-    passport.authenticate('local', { successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true })
-  );*/
+      } else {
+        res.sendFile(process.cwd() + '/public/index.html');
+      }
+    });
 
   app.route('/logout')
     .get(function(req, res) {
@@ -36,11 +37,6 @@ module.exports = function (app, passport){
       .post(pollHandler.createPoll)
       .get(pollHandler.getPolls);
 
-  app.route('/poll')
-    .get(function(req, res){
-      res.sendFile(process.cwd() + '/public/poll.html');
-    });
-
   app.route('/yourpolls')
     .get(function (req, res) {
       res.sendFile(process.cwd() + '/public/yourpolls2.html');
@@ -48,13 +44,17 @@ module.exports = function (app, passport){
 
   app.route('/signup')
     .get(function (req, res) {
-      res.sendFile(process.cwd() + '/public/signup.html');
-    });
+      res.render('signup', {message: req.flash('error')});
+    })
+    .post(passport.authenticate('local-signup', { successRedirect: '/',
+        failureRedirect: '/signup',
+        failureFlash: true }));
 
   app.route('/login')
     .get(function (req, res) {
-      console.log(req.flash('error')[0]);
-      res.sendFile(process.cwd() + '/public/login.html');
+      //console.log(req.flash('error')[0]);
+      //res.sendFile(process.cwd() + '/public/login.html');
+      res.render('login', {message: req.flash('error')});
     })
     .post(passport.authenticate('local', { successRedirect: '/',
         failureRedirect: '/login',
@@ -67,17 +67,21 @@ module.exports = function (app, passport){
 
   app.route('/poll/:pollname')
     .get(function (req, res) {
+      if (req.isAuthenticated()) {
+        res.sendFile(process.cwd() + '/public/poll2loggedin.html');
+      } else {
       res.sendFile(process.cwd() + '/public/poll2.html');
+      }
+
     });
 
   app.route('/vote/:pollname')
     .get(function (req, res) {
-      res.sendFile(process.cwd() + '/public/vote2.html');
-    });
-
-  app.route('/testforejs')
-    .get(function (req, res) {
-      res.render('testforejs');
+      if (req.isAuthenticated()) {
+        res.sendFile(process.cwd() + '/public/vote3loggedin.html');
+      } else {
+      res.sendFile(process.cwd() + '/public/vote3.html');
+      }
     });
 
 };

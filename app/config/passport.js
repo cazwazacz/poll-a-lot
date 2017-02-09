@@ -17,6 +17,7 @@ module.exports = function (passport) {
 
   passport.use(new LocalStrategy(
     function(username, password, done) {
+    process.nextTick(function() {
       User.findOne({ username: username }, function (err, user) {
         if (err) { return done(err);
         console.log('error'); }
@@ -30,7 +31,34 @@ module.exports = function (passport) {
         return done(null, user);
         console.log('loggedin');
       });
+    });
     }
   ));
+
+  passport.use('local-signup', new LocalStrategy({
+    usernameField: 'username',
+    passwordField: 'password',
+    passReqToCallback: true
+  },
+    function(req, username, password, done) {
+        process.nextTick(function() {
+        User.findOne({username : username}, function(err, user) {
+            if (err)
+                return done(err);
+            if (user) {
+                return done(null, false, { message: 'That username is already taken.' });
+            } else {
+                var newUser = new User();
+                newUser.username = username;
+                newUser.password = password;
+
+                newUser.save(function(err) {
+                    if (err) {throw err;}
+                    return done(null, newUser);
+                });
+            }
+        });
+        });
+    }));
 
 };

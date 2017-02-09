@@ -10,14 +10,15 @@
   var url = '/api/poll' + pathname;
 
 
-  $(document).ready(function() {
+  /*$(document).ready(function() {
 
     $.getJSON(url, function(data) {
 
       var title = data.name;
       var id = data._id;
 
-      $('#title').html(title);
+
+//      $('#title').html(title);
 
       $('#form').append('<input type="hidden" name="id" value="' + id + '">');
       $('#form').append('<input type="hidden" name="name" value="' + title + '">');
@@ -36,22 +37,25 @@
 
     });
 
-  });
+  });*/
 
-  /*angular
+
+
+  angular
      .module('vote', ['ngResource'])
-     .controller('listPolls', ['$scope', '$resource', function ($scope, $resource) {
+     .controller('votesList', ['$scope', '$resource', function ($scope, $resource) {
 
 
         var Poll = $resource('/api/poll' + pathname);
 
-        $scope.getPoll = function () {
+        $scope.getLabels = function () {
           Poll.get(function (result) {
             $scope.labels = result.labels;
+            $scope.name = result.name;
           });
         };
 
-        $scope.getPoll();
-     }]);*/
+        $scope.getLabels();
+     }]);
 
 })();
