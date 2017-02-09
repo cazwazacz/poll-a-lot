@@ -8,23 +8,30 @@ var session = require('express-session');
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
 
+
+
 var app = express();
-//require('dotenv').load();
+
+//set view engine
+app.set('view engine', 'ejs');
+//load dotenv module
+require('dotenv').load();
 require('./app/config/passport.js')(passport);
 
-var url = 'mongodb://admin:admin@ds145649.mlab.com:45649/poll-a-lot';
+var url = process.env.MONGOLAB_URI;
 
 mongoose.connect(url);
 
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(flash());
+
 app.use(session({
   secret: '53cr33t',
   resave: false,
   saveUninitialized: true
 }));
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());

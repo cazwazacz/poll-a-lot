@@ -53,6 +53,7 @@ module.exports = function (app, passport){
 
   app.route('/login')
     .get(function (req, res) {
+      console.log(req.flash('error')[0]);
       res.sendFile(process.cwd() + '/public/login.html');
     })
     .post(passport.authenticate('local', { successRedirect: '/',
@@ -72,6 +73,11 @@ module.exports = function (app, passport){
   app.route('/vote/:pollname')
     .get(function (req, res) {
       res.sendFile(process.cwd() + '/public/vote2.html');
+    });
+
+  app.route('/testforejs')
+    .get(function (req, res) {
+      res.render('testforejs');
     });
 
 };
