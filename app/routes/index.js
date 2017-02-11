@@ -61,6 +61,8 @@ module.exports = function (app, passport){
         failureRedirect: '/login',
         failureFlash: true }));
 
+  app.route('/api/:pollname/delete')
+    .post(pollHandler.pollDelete);
 
   app.route('/api/poll/:pollname')
     .get(pollHandler.getSinglePoll)
@@ -70,7 +72,7 @@ module.exports = function (app, passport){
     .get(pollHandler.currentUser);
 
   app.route('/api/:user/polls')
-    .get(pollHandler.currentUserPolls);  
+    .get(pollHandler.currentUserPolls);
 
   app.route('/poll/:pollname')
     .get(function (req, res) {

@@ -9,6 +9,17 @@
 
         var User = $resource('/api/currentuser');
 
+        $scope.delete = function(argument) {
+          argument = argument.replace('?', ' ');
+
+          var postUrl = '/api/' + argument + '/delete';
+          var deleteApi = $resource(postUrl);
+          deleteApi.save(function () {
+
+          });
+
+        };
+
         $scope.names = [];
 
         $scope.getPolls = function () {

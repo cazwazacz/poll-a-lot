@@ -56,8 +56,9 @@
         <tbody>
           <tr ng-repeat="poll in names track by $index">
             <td style="text-align: left"><a href="/poll/{{ poll }}"><span ng-cloak>{{ poll }}</span></a></td>
-            <td><a href="/vote/{{ poll }}"><button type="button" name="button" class="sign-up btn btn-default">Vote</button></button></a></td>
-            <td><a href="/poll/{{ poll }}"><button type="button" name="button" class="sign-up btn btn-default">Results</button></button></a></td>
+            <td><a href="/vote/{{ poll }}"><button type="button" name="button" class="sign-up btn btn-default">Vote</button></a></td>
+            <td><a href="/poll/{{ poll }}"><button type="button" name="button" class="sign-up btn btn-default">Results</button></a></td>
+            <td><button type="button" name="button" class="sign-up btn btn-default" ng-click=delete(poll)>Delete</button></td>
             <!--<td><button id="delete-buttons" type="submit" name="button" class="btn">Delete</button></td>-->
           </tr>
         </tbody>

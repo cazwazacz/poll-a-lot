@@ -18,7 +18,7 @@ app.set('view engine', 'ejs');
 require('dotenv').load();
 require('./app/config/passport.js')(passport);
 
-var url = 'mongodb://admin:admin@ds145649.mlab.com:45649/poll-a-lot';
+var url = process.env.MONGOLAB_URI;
 
 mongoose.connect(url);
 

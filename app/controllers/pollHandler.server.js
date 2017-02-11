@@ -5,6 +5,16 @@ var Users = require('../models/users.js');
 
 function pollHandler () {
 
+  this.pollDelete = function (req, res) {
+    var name = req.params.pollname;
+
+    Polls.findOne({name: name})
+    .remove()
+      .exec();
+
+    res.redirect('/yourpolls');  
+  }
+
   this.currentUser = function (req, res) {
     var username = req.user.username;
     res.json({username: username});
