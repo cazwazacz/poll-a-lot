@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-
+ 
   angular
      .module('yourpolls', ['ngResource'])
      .controller('listPolls', ['$scope', '$resource', '$sce', function ($scope, $resource, $sce) {
